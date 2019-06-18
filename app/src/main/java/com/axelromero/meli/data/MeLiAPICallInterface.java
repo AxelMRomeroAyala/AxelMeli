@@ -19,5 +19,5 @@ public interface MeLiAPICallInterface {
     Call<List<PaymentMethodProviderModel>> getPaymentMethodProvider(@Query("payment_method_id") String paymentMethodId);
 
     @GET("/v1/payment_methods/installments")
-    Call<List<PaymentMethodInstallmentModel>> getPaymentMethodInstallments(@Query("payment_method_id") String paymentMethodId);
+    Call<List<PaymentMethodInstallmentModel>> getPaymentMethodInstallments(@Query("payment_method_id") String paymentMethodId, @Query("issuer.id") String issuerId);
 }

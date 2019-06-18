@@ -8,17 +8,22 @@ import com.axelromero.meli.models.PaymentMethodModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivityPresenter {
+public class SelectPaymentPresenter {
 
+    @Inject
     Retrofit retrofitService;
+    SelectPaymentInteractor interactor;
 
-    public MainActivityPresenter(Application application){
+    public SelectPaymentPresenter(Application application, SelectPaymentInteractor interactor){
         ((AxelMeLiApplication) application).getDataComponent().inject(this);
+        this.interactor= interactor;
     }
 
     public void getPaymentMethods() {
@@ -30,28 +35,19 @@ public class MainActivityPresenter {
         call.enqueue(new Callback<List<PaymentMethodModel>>() {
             @Override
             public void onResponse(Call<List<PaymentMethodModel>> call, Response<List<PaymentMethodModel>> response) {
-                response.body();
+                interactor.onPaymentMethodListLoaded(response.body());
             }
 
             @Override
             public void onFailure(Call<List<PaymentMethodModel>> call, Throwable t) {
                 t.printStackTrace();
+                interactor.onFailedToRecoverPaymentMethods();
             }
         });
     }
 
-    public void getProviders(){
-
+    public interface SelectPaymentInteractor{
+        void onPaymentMethodListLoaded(List<PaymentMethodModel> paymentMethodModelList);
+        void onFailedToRecoverPaymentMethods();
     }
-
-    public void getInstallments(){
-
-    }
-
-
-    public interface MainActivityInteractor{
-        void enableNextStep();
-        void disableNextStep();
-    }
-
 }

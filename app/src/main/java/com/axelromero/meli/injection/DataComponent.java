@@ -1,8 +1,10 @@
 package com.axelromero.meli.injection;
 
 import com.axelromero.meli.AxelMeLiApplication;
-import com.axelromero.meli.presenters.MainActivityPresenter;
-import com.axelromero.meli.views.MainActivity;
+import com.axelromero.meli.presenters.PaymentConfigurationActivityPresenter;
+import com.axelromero.meli.presenters.SelectInstallmentPresenter;
+import com.axelromero.meli.presenters.SelectPaymentPresenter;
+import com.axelromero.meli.presenters.SelectProviderPresenter;
 
 import javax.inject.Singleton;
 
@@ -14,6 +16,10 @@ import dagger.Component;
 public interface DataComponent {
 
     void inject(AxelMeLiApplication axelMeLiApplication);
-    void inject(MainActivityPresenter mainActivityPresenter);
+    void inject(PaymentConfigurationActivityPresenter paymentConfigurationActivityPresenter);
+    void inject(SelectPaymentPresenter selectPaymentPresenter);
+    void inject(SelectProviderPresenter selectProviderPresenter);
+    void inject(SelectInstallmentPresenter selectInstallmentPresenter);
+
 
 }

@@ -1,78 +1,113 @@
 package com.axelromero.meli.views;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.axelromero.meli.R;
-import com.axelromero.meli.presenters.MainActivityPresenter;
+import com.axelromero.meli.Utils;
+import com.axelromero.meli.models.PaymentConfigurationModel;
+import com.axelromero.meli.presenters.ValueInputPresenter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-public class MainActivity extends AppCompatActivity implements MainActivityPresenter.MainActivityInteractor {
+import java.util.List;
 
-    private ViewPager mPager;
-    private PagerAdapter pagerAdapter;
-    private MainActivityPresenter presenter;
-    Button nextButton;
+public class MainActivity extends AppCompatActivity implements ValueInputPresenter.ValueInputInteractor{
+
+    EditText valueInput;
+    Button valueOk;
+    ValueInputPresenter valueInputPresenter;
+
+    String inputtedValue;
+
+    PaymentConfigurationModel paymentConfigurationModel;
+
+    private static final int CONFIGURE_PAYMENT_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new MainActivityPresenter(getApplication());
+        valueInputPresenter= new ValueInputPresenter(this);
 
-        mPager = findViewById(R.id.pager);
-        nextButton = findViewById(R.id.nextStep);
+        valueInput= findViewById(R.id.input_value_edit_text);
+        valueOk= findViewById(R.id.input_value_ok);
 
-        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(pagerAdapter);
+        valueInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                valueInputPresenter.validateInputtedValue(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        valueOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                inputtedValue= valueInput.getText().toString();
+                Utils.hideKeyboard(MainActivity.this);
+                startActivityForResult(PaymentConfigurationActivity.getCallingIntent(getBaseContext(), inputtedValue), CONFIGURE_PAYMENT_REQUEST);
+            }
+        });
+    }
+
+    public void buildDialog(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.configuration_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        TextView textView =  dialogView.findViewById(R.id.dialog_text);
+        textView.setText("MESSAGE");
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
     }
 
     @Override
-    public void enableNextStep() {
-        nextButton.setEnabled(true);
-    }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    @Override
-    public void disableNextStep() {
-        nextButton.setEnabled(false);
-    }
+        if (requestCode == CONFIGURE_PAYMENT_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                assert data != null;
+                paymentConfigurationModel= new Gson().fromJson( data.getStringExtra(PaymentConfigurationActivity.CONFIGURATION_MODEL), PaymentConfigurationModel.class);
+                buildDialog();
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            switch (position) {
-
-                case 0:
-                    return new ValueInputFragment();
-                case 1:
-                    return new SelectPaymentFragment();
-                case 2:
-                    return new SelectProviderFragment();
-                case 3:
-                    return new SelectInstallmentFragment();
-                default:
-                    return new ValueInputFragment();
+                valueInput.setText(null);
             }
         }
 
-        @Override
-        public int getCount() {
-            return 4;
-        }
     }
 
+    @Override
+    public void onInputValueIsValid() {
+        valueOk.setEnabled(true);
+    }
+
+    @Override
+    public void onInputValueIsInvalid() {
+        valueOk.setEnabled(false);
+    }
 }

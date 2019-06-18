@@ -16,66 +16,47 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.axelromero.meli.R;
-import com.axelromero.meli.adapters.PaymentProvidersAdapter;
-import com.axelromero.meli.models.PaymentMethodProviderModel;
+import com.axelromero.meli.adapters.PaymentMethodsAdapter;
+import com.axelromero.meli.models.PaymentMethodModel;
 import com.axelromero.meli.presenters.PaymentConfigurationActivityPresenter;
-import com.axelromero.meli.presenters.SelectProviderPresenter;
+import com.axelromero.meli.presenters.SelectPaymentPresenter;
 
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SelectProviderFragment extends Fragment implements SelectProviderPresenter.SelectProviderInteractor, PaymentProvidersAdapter.PaymentProviderAdapterInteractor {
-
-    private static final String METHOD_ID = "method_id";
+public class SelectPaymentMethodFragment extends Fragment implements SelectPaymentPresenter.SelectPaymentInteractor, PaymentMethodsAdapter.PaymentMethodAdapterInteractor {
 
     PaymentConfigurationActivityPresenter.MainActivityInteractor mainActivityInteractor;
-    SelectProviderPresenter presenter;
+    SelectPaymentPresenter presenter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
-    PaymentProvidersAdapter adapter;
+    PaymentMethodsAdapter adapter;
 
-    private String methodId;
-
-    public static SelectProviderFragment getFragment(String methodId) {
-        SelectProviderFragment fragment = new SelectProviderFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(METHOD_ID, methodId);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    public SelectProviderFragment() {
+    public SelectPaymentMethodFragment() {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        assert getArguments() != null;
-        methodId = getArguments().getString(METHOD_ID);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_select_provider, container, false);
+        return inflater.inflate(R.layout.fragment_select_payment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        recyclerView = view.findViewById(R.id.payment_provider_recycler);
-        progressBar= view.findViewById(R.id.payment_provider_progress);
+        recyclerView= view.findViewById(R.id.payment_method_recycler);
+        progressBar= view.findViewById(R.id.payment_method_progress);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        presenter = new SelectProviderPresenter(getActivity().getApplication(), this);
-        presenter.getProviders(methodId);
+        presenter = new SelectPaymentPresenter(getActivity().getApplication(), this);
+        presenter.getPaymentMethods();
     }
 
     @Override
@@ -90,19 +71,23 @@ public class SelectProviderFragment extends Fragment implements SelectProviderPr
     }
 
     @Override
-    public void onProviderListLoaded(List<PaymentMethodProviderModel> methodProviderModels) {
-        adapter = new PaymentProvidersAdapter(methodProviderModels, this);
+    public void onPaymentMethodListLoaded(List<PaymentMethodModel> paymentMethodModelList) {
+        adapter= new PaymentMethodsAdapter(paymentMethodModelList, this);
         recyclerView.setAdapter(adapter);
+
         progressBar.setVisibility(View.GONE);
     }
 
     @Override
-    public void onFailedToLoadProviders() {
+    public void onFailedToRecoverPaymentMethods() {
         progressBar.setVisibility(View.GONE);
     }
 
     @Override
-    public void onProviderSelected(PaymentMethodProviderModel providerModel) {
-        mainActivityInteractor.onProviderDecided(providerModel);
+    public void onMethodSelected(PaymentMethodModel methodModel) {
+
+        mainActivityInteractor.onMethodDecided(methodModel);
+
     }
+
 }
