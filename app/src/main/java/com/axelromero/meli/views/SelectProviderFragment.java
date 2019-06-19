@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.axelromero.meli.R;
 import com.axelromero.meli.adapters.PaymentProvidersAdapter;
@@ -30,11 +32,12 @@ public class SelectProviderFragment extends Fragment implements SelectProviderPr
 
     private static final String METHOD_ID = "method_id";
 
-    PaymentConfigurationActivityPresenter.MainActivityInteractor mainActivityInteractor;
-    SelectProviderPresenter presenter;
-    RecyclerView recyclerView;
-    ProgressBar progressBar;
-    PaymentProvidersAdapter adapter;
+    private PaymentConfigurationActivityPresenter.MainActivityInteractor mainActivityInteractor;
+    private SelectProviderPresenter presenter;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private TextView noDataMessage;
+    private PaymentProvidersAdapter adapter;
 
     private String methodId;
 
@@ -70,6 +73,7 @@ public class SelectProviderFragment extends Fragment implements SelectProviderPr
 
         recyclerView = view.findViewById(R.id.payment_provider_recycler);
         progressBar= view.findViewById(R.id.payment_provider_progress);
+        noDataMessage= view.findViewById(R.id.payment_provider_no_data);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -99,6 +103,13 @@ public class SelectProviderFragment extends Fragment implements SelectProviderPr
     @Override
     public void onFailedToLoadProviders() {
         progressBar.setVisibility(View.GONE);
+        Toast.makeText(getContext(), R.string.fail_provider , Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNoProviders() {
+        progressBar.setVisibility(View.GONE);
+        noDataMessage.setVisibility(View.VISIBLE);
     }
 
     @Override

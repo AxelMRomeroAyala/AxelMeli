@@ -23,7 +23,7 @@ public class PaymentConfigurationActivityPresenter {
     public interface MainActivityInteractor{
         void onMethodDecided(PaymentMethodModel methodModel);
         void onProviderDecided(PaymentMethodProviderModel providerModel);
-        void onInstallmentDecided(PaymentMethodInstallmentModel installmentModel);
+        void onInstallmentDecided(PaymentMethodInstallmentModel.PayerCost payerCost);
     }
 
 }

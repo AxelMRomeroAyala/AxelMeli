@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.axelromero.meli.R;
 import com.axelromero.meli.adapters.PaymentMethodsAdapter;
@@ -28,11 +30,12 @@ import java.util.List;
  */
 public class SelectPaymentMethodFragment extends Fragment implements SelectPaymentPresenter.SelectPaymentInteractor, PaymentMethodsAdapter.PaymentMethodAdapterInteractor {
 
-    PaymentConfigurationActivityPresenter.MainActivityInteractor mainActivityInteractor;
-    SelectPaymentPresenter presenter;
-    RecyclerView recyclerView;
-    ProgressBar progressBar;
-    PaymentMethodsAdapter adapter;
+    private PaymentConfigurationActivityPresenter.MainActivityInteractor mainActivityInteractor;
+    private SelectPaymentPresenter presenter;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private TextView noDataMessage;
+    private PaymentMethodsAdapter adapter;
 
     public SelectPaymentMethodFragment() {
         // Required empty public constructor
@@ -51,6 +54,7 @@ public class SelectPaymentMethodFragment extends Fragment implements SelectPayme
         super.onViewCreated(view, savedInstanceState);
         recyclerView= view.findViewById(R.id.payment_method_recycler);
         progressBar= view.findViewById(R.id.payment_method_progress);
+        noDataMessage= view.findViewById(R.id.payment_method_no_data);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -81,13 +85,18 @@ public class SelectPaymentMethodFragment extends Fragment implements SelectPayme
     @Override
     public void onFailedToRecoverPaymentMethods() {
         progressBar.setVisibility(View.GONE);
+        Toast.makeText(getContext(), R.string.fail_method , Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNoPaymentMethod() {
+        progressBar.setVisibility(View.GONE);
+        noDataMessage.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onMethodSelected(PaymentMethodModel methodModel) {
-
         mainActivityInteractor.onMethodDecided(methodModel);
-
     }
 
 }

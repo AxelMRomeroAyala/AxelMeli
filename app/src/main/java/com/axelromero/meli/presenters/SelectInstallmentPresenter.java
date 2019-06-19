@@ -21,12 +21,12 @@ public class SelectInstallmentPresenter {
 
     SelectInstallmentInteractor interactor;
 
-    public SelectInstallmentPresenter(Application application, SelectInstallmentInteractor installmentInteractor){
+    public SelectInstallmentPresenter(Application application, SelectInstallmentInteractor installmentInteractor) {
         ((AxelMeLiApplication) application).getDataComponent().inject(this);
-        this.interactor= installmentInteractor;
+        this.interactor = installmentInteractor;
     }
 
-    public void getPaymentInstalments(String method, String issuerId){
+    public void getPaymentInstalments(String method, String issuerId) {
         MeLiAPICallInterface service = retrofitService.create(MeLiAPICallInterface.class);
 
         Call<List<PaymentMethodInstallmentModel>> call = service.getPaymentMethodInstallments(method, issuerId);
@@ -34,7 +34,12 @@ public class SelectInstallmentPresenter {
         call.enqueue(new Callback<List<PaymentMethodInstallmentModel>>() {
             @Override
             public void onResponse(Call<List<PaymentMethodInstallmentModel>> call, Response<List<PaymentMethodInstallmentModel>> response) {
-                interactor.onInstallmentsLoaded(response.body());
+
+                if (response.body() != null && !response.body().isEmpty()) {
+                    interactor.onInstallmentsLoaded(response.body());
+                } else {
+                    interactor.onNoInstallments();
+                }
             }
 
             @Override
@@ -45,9 +50,12 @@ public class SelectInstallmentPresenter {
         });
     }
 
-    public interface SelectInstallmentInteractor{
+    public interface SelectInstallmentInteractor {
         void onInstallmentsLoaded(List<PaymentMethodInstallmentModel> installmentModelList);
+
         void onFailToLoadInstallments();
+
+        void onNoInstallments();
     }
 
 }

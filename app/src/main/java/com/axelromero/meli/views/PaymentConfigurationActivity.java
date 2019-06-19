@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.axelromero.meli.R;
+import com.axelromero.meli.models.PaymentConfigurationModel;
 import com.axelromero.meli.models.PaymentMethodInstallmentModel;
 import com.axelromero.meli.models.PaymentMethodModel;
 import com.axelromero.meli.models.PaymentMethodProviderModel;
@@ -26,6 +27,9 @@ public class PaymentConfigurationActivity extends AppCompatActivity implements P
     private PaymentConfigurationActivityPresenter presenter;
 
     private String price;
+    private PaymentMethodModel methodModel;
+    private PaymentMethodProviderModel providerModel;
+
     private String methodId;
     private String issuerID;
 
@@ -72,19 +76,24 @@ public class PaymentConfigurationActivity extends AppCompatActivity implements P
     @Override
     public void onMethodDecided(PaymentMethodModel methodModel) {
         methodId = methodModel.getId();
+        this.methodModel= methodModel;
         addFragment(SelectProviderFragment.getFragment(methodId));
     }
 
     @Override
     public void onProviderDecided(PaymentMethodProviderModel providerModel) {
         issuerID = providerModel.getId();
+        this.providerModel= providerModel;
         addFragment(SelectInstallmentFragment.getFragment(methodId, issuerID));
     }
 
     @Override
-    public void onInstallmentDecided(PaymentMethodInstallmentModel installmentModel) {
+    public void onInstallmentDecided(PaymentMethodInstallmentModel.PayerCost payerCost) {
+
+        PaymentConfigurationModel model= new PaymentConfigurationModel(price, methodModel, providerModel, payerCost);
+
         Intent resultIntent = new Intent();
-        resultIntent.putExtra(CONFIGURATION_MODEL, new Gson().toJson(installmentModel));
+        resultIntent.putExtra(CONFIGURATION_MODEL, new Gson().toJson(model));
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }

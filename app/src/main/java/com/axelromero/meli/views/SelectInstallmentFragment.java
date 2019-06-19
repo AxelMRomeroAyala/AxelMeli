@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.axelromero.meli.R;
 import com.axelromero.meli.adapters.PaymentInstallmentAdapter;
@@ -32,12 +34,13 @@ public class SelectInstallmentFragment extends Fragment implements SelectInstall
     private static final String METHOD_ID = "method_id";
     private static final String ISSUER_ID = "issuer_id";
 
-    PaymentConfigurationActivityPresenter.MainActivityInteractor mainActivityInteractor;
-    SelectInstallmentPresenter presenter;
+    private PaymentConfigurationActivityPresenter.MainActivityInteractor mainActivityInteractor;
+    private SelectInstallmentPresenter presenter;
 
-    PaymentInstallmentAdapter adapter;
-    RecyclerView recyclerView;
-    ProgressBar progressBar;
+    private PaymentInstallmentAdapter adapter;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private TextView noDataMessage;
 
     private String methodId;
     private String issuerId;
@@ -79,6 +82,7 @@ public class SelectInstallmentFragment extends Fragment implements SelectInstall
 
         recyclerView = view.findViewById(R.id.payment_installment_recycler);
         progressBar = view.findViewById(R.id.payment_installment_progress);
+        noDataMessage = view.findViewById(R.id.payment_installment_no_data);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
@@ -100,6 +104,8 @@ public class SelectInstallmentFragment extends Fragment implements SelectInstall
     @Override
     public void onInstallmentsLoaded(List<PaymentMethodInstallmentModel> installmentModelList) {
 
+        noDataMessage.setVisibility(View.GONE);
+
         if (installmentModelList != null) {
             adapter = new PaymentInstallmentAdapter(installmentModelList.get(0), this);
             recyclerView.setAdapter(adapter);
@@ -110,10 +116,17 @@ public class SelectInstallmentFragment extends Fragment implements SelectInstall
     @Override
     public void onFailToLoadInstallments() {
         progressBar.setVisibility(View.GONE);
+        Toast.makeText(getContext(), R.string.fail_installment, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onInstallmentSelected(PaymentMethodInstallmentModel installmentModel) {
-        mainActivityInteractor.onInstallmentDecided(installmentModel);
+    public void onNoInstallments() {
+        progressBar.setVisibility(View.GONE);
+        noDataMessage.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onInstallmentSelected(PaymentMethodInstallmentModel.PayerCost payerCost) {
+        mainActivityInteractor.onInstallmentDecided(payerCost);
     }
 }

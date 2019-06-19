@@ -21,9 +21,9 @@ public class SelectPaymentPresenter {
     Retrofit retrofitService;
     SelectPaymentInteractor interactor;
 
-    public SelectPaymentPresenter(Application application, SelectPaymentInteractor interactor){
+    public SelectPaymentPresenter(Application application, SelectPaymentInteractor interactor) {
         ((AxelMeLiApplication) application).getDataComponent().inject(this);
-        this.interactor= interactor;
+        this.interactor = interactor;
     }
 
     public void getPaymentMethods() {
@@ -35,7 +35,11 @@ public class SelectPaymentPresenter {
         call.enqueue(new Callback<List<PaymentMethodModel>>() {
             @Override
             public void onResponse(Call<List<PaymentMethodModel>> call, Response<List<PaymentMethodModel>> response) {
-                interactor.onPaymentMethodListLoaded(response.body());
+                if (response.body() != null && !response.body().isEmpty()) {
+                    interactor.onPaymentMethodListLoaded(response.body());
+                } else {
+                    interactor.onNoPaymentMethod();
+                }
             }
 
             @Override
@@ -46,8 +50,11 @@ public class SelectPaymentPresenter {
         });
     }
 
-    public interface SelectPaymentInteractor{
+    public interface SelectPaymentInteractor {
         void onPaymentMethodListLoaded(List<PaymentMethodModel> paymentMethodModelList);
+
         void onFailedToRecoverPaymentMethods();
+
+        void onNoPaymentMethod();
     }
 }

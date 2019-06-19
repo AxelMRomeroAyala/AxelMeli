@@ -36,7 +36,12 @@ public class SelectProviderPresenter {
         call.enqueue(new Callback<List<PaymentMethodProviderModel>>() {
             @Override
             public void onResponse(Call<List<PaymentMethodProviderModel>> call, Response<List<PaymentMethodProviderModel>> response) {
-                interactor.onProviderListLoaded(response.body());
+                if(response.body() != null && !response.body().isEmpty()){
+                    interactor.onProviderListLoaded(response.body());
+                }
+                else {
+                    interactor.onNoProviders();
+                }
             }
 
             @Override
@@ -50,5 +55,6 @@ public class SelectProviderPresenter {
     public interface SelectProviderInteractor {
         void onProviderListLoaded(List<PaymentMethodProviderModel> methodProviderModels);
         void onFailedToLoadProviders();
+        void onNoProviders();
     }
 }

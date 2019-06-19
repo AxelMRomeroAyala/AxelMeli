@@ -19,9 +19,6 @@ import com.axelromero.meli.Utils;
 import com.axelromero.meli.models.PaymentConfigurationModel;
 import com.axelromero.meli.presenters.ValueInputPresenter;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ValueInputPresenter.ValueInputInteractor{
 
@@ -72,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements ValueInputPresent
         });
     }
 
-    public void buildDialog(){
+    public void buildDialog(PaymentConfigurationModel model){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = this.getLayoutInflater();
@@ -80,7 +77,11 @@ public class MainActivity extends AppCompatActivity implements ValueInputPresent
         dialogBuilder.setView(dialogView);
 
         TextView textView =  dialogView.findViewById(R.id.dialog_text);
-        textView.setText("MESSAGE");
+        String message= "Value: " + model.getInputtedValue() + "\n"+
+                "Method: "+model.getPaymentMethodModel().getName()+"\n"+
+                "Provider: "+model.getPaymentMethodProviderModel().getName()+"\n"+
+                "Installment: "+model.getPayerCost().getRecommendedMessage()+"\n";
+        textView.setText(message);
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
     }
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements ValueInputPresent
             if (resultCode == RESULT_OK) {
                 assert data != null;
                 paymentConfigurationModel= new Gson().fromJson( data.getStringExtra(PaymentConfigurationActivity.CONFIGURATION_MODEL), PaymentConfigurationModel.class);
-                buildDialog();
+                buildDialog(paymentConfigurationModel);
 
                 valueInput.setText(null);
             }

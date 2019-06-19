@@ -30,7 +30,7 @@ public class PaymentInstallmentAdapter extends RecyclerView.Adapter<PaymentInsta
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PaymentInstallViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PaymentInstallViewHolder holder, final int position) {
         PaymentMethodInstallmentModel.PayerCost payerCost = paymentMethodInstallmentModel.getPayerCosts().get(position);
 
         holder.quantity.setText(String.valueOf(payerCost.getInstallments()));
@@ -38,7 +38,7 @@ public class PaymentInstallmentAdapter extends RecyclerView.Adapter<PaymentInsta
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                interactor.onInstallmentSelected(paymentMethodInstallmentModel);
+                interactor.onInstallmentSelected(paymentMethodInstallmentModel.getPayerCosts().get(position));
             }
         });
     }
@@ -66,6 +66,6 @@ public class PaymentInstallmentAdapter extends RecyclerView.Adapter<PaymentInsta
     }
 
     public interface PaymentInstallmentAdapterInteractor{
-        void onInstallmentSelected(PaymentMethodInstallmentModel installmentModel);
+        void onInstallmentSelected(PaymentMethodInstallmentModel.PayerCost payerCost);
     }
 }

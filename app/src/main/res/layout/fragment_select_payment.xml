@@ -16,6 +16,18 @@
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintBottom_toTopOf="@id/payment_method_recycler"/>
 
+    <TextView
+        android:id="@+id/payment_method_no_data"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/no_data"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
+
+
     <ProgressBar
         android:id="@+id/payment_method_progress"
         android:layout_gravity="center"

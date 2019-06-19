@@ -8,4 +8,10 @@
     <string name="select_provider">Select your bank</string>
     <string name="select_installment_amount">Choose the amount of installments</string>
 
+    <string name="fail_method">There was an error recovering the payment methods. Try again later.</string>
+    <string name="fail_provider">There was an error recovering the bank information. Try again later.</string>
+    <string name="fail_installment">There was an error recovering the installments data. Try again later.</string>
+
+    <string name="no_data">There is no information</string>
+
 </resources>

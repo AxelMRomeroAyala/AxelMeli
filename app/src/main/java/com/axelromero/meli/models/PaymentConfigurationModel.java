@@ -7,7 +7,14 @@ public class PaymentConfigurationModel implements Serializable {
     private String inputtedValue;
     private PaymentMethodModel paymentMethodModel;
     private PaymentMethodProviderModel paymentMethodProviderModel;
-    private PaymentMethodInstallmentModel paymentMethodInstallmentModel;
+    private PaymentMethodInstallmentModel.PayerCost payerCost;
+
+    public PaymentConfigurationModel(String inputtedValue, PaymentMethodModel paymentMethodModel, PaymentMethodProviderModel providerModel, PaymentMethodInstallmentModel.PayerCost payerCost){
+        this.inputtedValue= inputtedValue;
+        this.paymentMethodModel = paymentMethodModel;
+        this.paymentMethodProviderModel = providerModel;
+        this.payerCost= payerCost;
+    }
 
     public String getInputtedValue() {
         return inputtedValue;
@@ -33,11 +40,11 @@ public class PaymentConfigurationModel implements Serializable {
         this.paymentMethodProviderModel = paymentMethodProviderModel;
     }
 
-    public PaymentMethodInstallmentModel getPaymentMethodInstallmentModel() {
-        return paymentMethodInstallmentModel;
+    public PaymentMethodInstallmentModel.PayerCost getPayerCost() {
+        return payerCost;
     }
 
-    public void setPaymentMethodInstallmentModel(PaymentMethodInstallmentModel paymentMethodInstallmentModel) {
-        this.paymentMethodInstallmentModel = paymentMethodInstallmentModel;
+    public void setPayerCost(PaymentMethodInstallmentModel.PayerCost payerCost) {
+        this.payerCost = payerCost;
     }
 }
