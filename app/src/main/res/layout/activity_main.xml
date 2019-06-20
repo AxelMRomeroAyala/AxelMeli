@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/input_value_title"
+        android:textColor="@color/colorTrueBlack"
+        android:textSize="@dimen/title_size"
         app:layout_constraintBottom_toTopOf="@id/input_value_edit_text"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"

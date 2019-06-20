@@ -10,7 +10,11 @@
         android:id="@+id/payment_provider_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/general_margin"
+        android:gravity="center"
         android:text="@string/select_provider"
+        android:textColor="@color/colorTrueBlack"
+        android:textSize="@dimen/title_size"
         app:layout_constraintBottom_toTopOf="@id/payment_provider_recycler"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -20,12 +24,16 @@
         android:id="@+id/payment_provider_no_data"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/general_margin"
+        android:gravity="center"
         android:text="@string/no_data"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/colorTrueBlack"
+        android:textSize="@dimen/title_size"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/payment_provider_progress"

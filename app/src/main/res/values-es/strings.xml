@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="button_next">Siguiente</string>
+    <string name="value">Monto: </string>
+    <string name="method">Medio: </string>
+    <string name="provider">Banco: </string>
+    <string name="installments">Cuotas: </string>
+
+    <string name="input_value_title">Por favor ingrese un monto</string>
+    <string name="select_payment_method">Seleccione un medio de pago</string>
+    <string name="select_provider">Seleccione un banco</string>
+    <string name="select_installment_amount">Seleccione la cantidad de cuotas</string>
+
+    <string name="fail_method">Hubo un error recuperando los medios de pago. Intente más tarde.</string>
+    <string name="fail_provider">Hubo un error recuperando la informacion sobre los bancos. Intente más tarde.</string>
+    <string name="fail_installment">Hubo un error recuperando la informacion sobre las cuotas. Intente más tarde.</string>
+
+    <string name="no_data">No hay información.</string>
+</resources>

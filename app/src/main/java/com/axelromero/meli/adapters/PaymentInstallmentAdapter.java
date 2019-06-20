@@ -33,7 +33,8 @@ public class PaymentInstallmentAdapter extends RecyclerView.Adapter<PaymentInsta
     public void onBindViewHolder(@NonNull PaymentInstallViewHolder holder, final int position) {
         PaymentMethodInstallmentModel.PayerCost payerCost = paymentMethodInstallmentModel.getPayerCosts().get(position);
 
-        holder.quantity.setText(String.valueOf(payerCost.getInstallments()));
+        String installments= payerCost.getInstallments() +"x";
+        holder.quantity.setText(installments);;
 
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override

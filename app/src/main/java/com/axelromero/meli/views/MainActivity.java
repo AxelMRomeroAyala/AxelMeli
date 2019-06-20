@@ -20,7 +20,7 @@ import com.axelromero.meli.models.PaymentConfigurationModel;
 import com.axelromero.meli.presenters.ValueInputPresenter;
 import com.google.gson.Gson;
 
-public class MainActivity extends AppCompatActivity implements ValueInputPresenter.ValueInputInteractor{
+public class MainActivity extends AppCompatActivity implements ValueInputPresenter.ValueInputInteractor {
 
     EditText valueInput;
     Button valueOk;
@@ -37,10 +37,10 @@ public class MainActivity extends AppCompatActivity implements ValueInputPresent
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        valueInputPresenter= new ValueInputPresenter(this);
+        valueInputPresenter = new ValueInputPresenter(this);
 
-        valueInput= findViewById(R.id.input_value_edit_text);
-        valueOk= findViewById(R.id.input_value_ok);
+        valueInput = findViewById(R.id.input_value_edit_text);
+        valueOk = findViewById(R.id.input_value_ok);
 
         valueInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -62,25 +62,25 @@ public class MainActivity extends AppCompatActivity implements ValueInputPresent
         valueOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputtedValue= valueInput.getText().toString();
+                inputtedValue = valueInput.getText().toString();
                 Utils.hideKeyboard(MainActivity.this);
                 startActivityForResult(PaymentConfigurationActivity.getCallingIntent(getBaseContext(), inputtedValue), CONFIGURE_PAYMENT_REQUEST);
             }
         });
     }
 
-    public void buildDialog(PaymentConfigurationModel model){
+    public void buildDialog(PaymentConfigurationModel model) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.configuration_dialog, null);
         dialogBuilder.setView(dialogView);
 
-        TextView textView =  dialogView.findViewById(R.id.dialog_text);
-        String message= "Value: " + model.getInputtedValue() + "\n"+
-                "Method: "+model.getPaymentMethodModel().getName()+"\n"+
-                "Provider: "+model.getPaymentMethodProviderModel().getName()+"\n"+
-                "Installment: "+model.getPayerCost().getRecommendedMessage()+"\n";
+        TextView textView = dialogView.findViewById(R.id.dialog_text);
+        String message = getString(R.string.value) + model.getInputtedValue() + "\n" +
+                getString(R.string.method) + model.getPaymentMethodModel().getName() + "\n" +
+                getString(R.string.provider) + model.getPaymentMethodProviderModel().getName() + "\n" +
+                getString(R.string.installments) + model.getPayerCost().getRecommendedMessage() + "\n";
         textView.setText(message);
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements ValueInputPresent
         if (requestCode == CONFIGURE_PAYMENT_REQUEST) {
             if (resultCode == RESULT_OK) {
                 assert data != null;
-                paymentConfigurationModel= new Gson().fromJson( data.getStringExtra(PaymentConfigurationActivity.CONFIGURATION_MODEL), PaymentConfigurationModel.class);
+                paymentConfigurationModel = new Gson().fromJson(data.getStringExtra(PaymentConfigurationActivity.CONFIGURATION_MODEL), PaymentConfigurationModel.class);
                 buildDialog(paymentConfigurationModel);
 
                 valueInput.setText(null);
