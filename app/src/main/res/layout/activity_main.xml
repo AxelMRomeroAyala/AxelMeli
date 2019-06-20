@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:enabled="false"
-        android:text="NEXT"
+        android:text="@string/button_next"
         app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
         app:layout_constraintEnd_toStartOf="@id/guideline_end" />
 
