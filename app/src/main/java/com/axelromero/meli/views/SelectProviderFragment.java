@@ -13,15 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.axelromero.meli.R;
 import com.axelromero.meli.adapters.PaymentProvidersAdapter;
+import com.axelromero.meli.models.PaymentMethodModel;
 import com.axelromero.meli.models.PaymentMethodProviderModel;
 import com.axelromero.meli.presenters.PaymentConfigurationActivityPresenter;
 import com.axelromero.meli.presenters.SelectProviderPresenter;
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -30,21 +34,22 @@ import java.util.List;
  */
 public class SelectProviderFragment extends Fragment implements SelectProviderPresenter.SelectProviderInteractor, PaymentProvidersAdapter.PaymentProviderAdapterInteractor {
 
-    private static final String METHOD_ID = "method_id";
+    private static final String METHOD_ID = "method";
 
     private PaymentConfigurationActivityPresenter.MainActivityInteractor mainActivityInteractor;
     private SelectProviderPresenter presenter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private TextView noDataMessage;
+    private ImageView methodInfo;
     private PaymentProvidersAdapter adapter;
 
-    private String methodId;
+    private PaymentMethodModel method;
 
-    public static SelectProviderFragment getFragment(String methodId) {
+    public static SelectProviderFragment getFragment(PaymentMethodModel method) {
         SelectProviderFragment fragment = new SelectProviderFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(METHOD_ID, methodId);
+        bundle.putString(METHOD_ID, new Gson().toJson(method));
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -57,7 +62,7 @@ public class SelectProviderFragment extends Fragment implements SelectProviderPr
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         assert getArguments() != null;
-        methodId = getArguments().getString(METHOD_ID);
+        method = new Gson().fromJson(getArguments().getString(METHOD_ID), PaymentMethodModel.class);
     }
 
     @Override
@@ -72,14 +77,19 @@ public class SelectProviderFragment extends Fragment implements SelectProviderPr
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.payment_provider_recycler);
-        progressBar= view.findViewById(R.id.payment_provider_progress);
-        noDataMessage= view.findViewById(R.id.payment_provider_no_data);
+        progressBar = view.findViewById(R.id.payment_provider_progress);
+        noDataMessage = view.findViewById(R.id.payment_provider_no_data);
+        methodInfo = view.findViewById(R.id.payment_method_info);
+
+        methodInfo.setTransitionName(method.getName());
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         presenter = new SelectProviderPresenter(getActivity().getApplication(), this);
-        presenter.getProviders(methodId);
+        presenter.getProviders(method.getId());
+
+        Glide.with(view).load(method.getThumbnail()).into(methodInfo);
     }
 
     @Override
@@ -103,7 +113,7 @@ public class SelectProviderFragment extends Fragment implements SelectProviderPr
     @Override
     public void onFailedToLoadProviders() {
         progressBar.setVisibility(View.GONE);
-        Toast.makeText(getContext(), R.string.fail_provider , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.fail_provider, Toast.LENGTH_SHORT).show();
     }
 
     @Override

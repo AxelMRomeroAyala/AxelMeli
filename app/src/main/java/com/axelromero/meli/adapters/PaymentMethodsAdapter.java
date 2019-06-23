@@ -34,14 +34,13 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PaymentMethodViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final PaymentMethodViewHolder holder, final int position) {
 
         holder.textView.setText(paymentMethodModelList.get(position).getName());
         Glide.with(holder.imageView.getContext())
                 .load(paymentMethodModelList.get(position).getSecureThumbnail())
                 .override(300)
                 .into(holder.imageView);
-
 
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override

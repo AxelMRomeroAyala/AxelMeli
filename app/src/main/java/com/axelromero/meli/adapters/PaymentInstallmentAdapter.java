@@ -34,7 +34,7 @@ public class PaymentInstallmentAdapter extends RecyclerView.Adapter<PaymentInsta
         PaymentMethodInstallmentModel.PayerCost payerCost = paymentMethodInstallmentModel.getPayerCosts().get(position);
 
         String installments= payerCost.getInstallments() +"x";
-        holder.quantity.setText(installments);;
+        holder.quantity.setText(installments);
 
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override

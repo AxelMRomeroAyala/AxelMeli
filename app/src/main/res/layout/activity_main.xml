@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.MainActivity">
+    tools:context=".views.ValueInputActivity">
 
     <TextView
         android:layout_width="0dp"
@@ -23,7 +23,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:inputType="number"
+        android:gravity="center"
+        android:hint="@string/value_suggestion"
+        android:inputType="numberDecimal"
+        android:digits="0123456789.,$"
+        android:textColor="@color/colorTrueBlack"
+        android:textSize="@dimen/value_size"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -31,13 +37,17 @@
 
     <Button
         android:id="@+id/input_value_ok"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:enabled="false"
         android:text="@string/button_next"
+        android:textColor="@color/colorTrueBlack"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
-        app:layout_constraintEnd_toStartOf="@id/guideline_end" />
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintEnd_toStartOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"

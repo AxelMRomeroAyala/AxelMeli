@@ -17,4 +17,10 @@
     <string name="fail_installment">Hubo un error recuperando la informacion sobre las cuotas. Intente más tarde.</string>
 
     <string name="no_data">No hay información.</string>
+
+    <plurals name="installment_dialog_info">
+        <item quantity="one">En %d cuota.</item>
+        <item quantity="other">En %d cuotas.</item>
+    </plurals>
+
 </resources>

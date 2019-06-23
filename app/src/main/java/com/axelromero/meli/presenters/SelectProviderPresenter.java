@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.axelromero.meli.AxelMeLiApplication;
 import com.axelromero.meli.data.MeLiAPICallInterface;
-import com.axelromero.meli.models.PaymentMethodModel;
 import com.axelromero.meli.models.PaymentMethodProviderModel;
 
 import java.util.List;

@@ -1,13 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/general_margin"
+        android:gravity="center"
+        android:text="@string/value"
+        android:textColor="@color/colorTrueBlack"
+        android:textSize="@dimen/title_size"
+        app:layout_constraintEnd_toStartOf="@id/value_amount"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Monto: " />
+
+    <TextView
+        android:id="@+id/value_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/colorTrueBlack"
+        android:textSize="@dimen/title_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/dialog_text"
+        app:layout_constraintTop_toTopOf="@id/dialog_text"
+        tools:text="$20.000 " />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/method_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/method"
+        android:textColor="@color/colorTrueBlack"
+        app:layout_constraintEnd_toStartOf="@id/provider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/value_amount"
+        tools:src="@drawable/ic_launcher_foreground"
+        tools:text="Medio: " />
+
+    <TextView
+        android:id="@+id/provider_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/provider"
+        android:textColor="@color/colorTrueBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/method"
+        app:layout_constraintTop_toBottomOf="@id/value_amount"
+        tools:src="@drawable/ic_launcher_foreground"
+        tools:text="Banco: " />
+
+    <ImageView
+        android:id="@+id/method"
+        android:layout_width="@dimen/step_info_size"
+        android:layout_height="@dimen/step_info_size"
+        app:layout_constraintEnd_toStartOf="@id/provider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/method_title"
+        tools:src="@drawable/ic_launcher_foreground" />
+
+    <ImageView
+        android:id="@+id/provider"
+        android:layout_width="@dimen/step_info_size"
+        android:layout_height="@dimen/step_info_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/method"
+        app:layout_constraintTop_toBottomOf="@id/provider_title"
+        tools:src="@drawable/ic_launcher_foreground" />
+
+    <TextView
+        android:id="@+id/installment_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/colorTrueBlack"
+        android:textSize="@dimen/title_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/provider"
+        tools:text="En X Cuotas" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

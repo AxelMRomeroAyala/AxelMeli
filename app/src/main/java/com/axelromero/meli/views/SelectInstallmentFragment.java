@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,8 +22,12 @@ import android.widget.Toast;
 import com.axelromero.meli.R;
 import com.axelromero.meli.adapters.PaymentInstallmentAdapter;
 import com.axelromero.meli.models.PaymentMethodInstallmentModel;
+import com.axelromero.meli.models.PaymentMethodModel;
+import com.axelromero.meli.models.PaymentMethodProviderModel;
 import com.axelromero.meli.presenters.PaymentConfigurationActivityPresenter;
 import com.axelromero.meli.presenters.SelectInstallmentPresenter;
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -31,8 +36,8 @@ import java.util.List;
  */
 public class SelectInstallmentFragment extends Fragment implements SelectInstallmentPresenter.SelectInstallmentInteractor, PaymentInstallmentAdapter.PaymentInstallmentAdapterInteractor {
 
-    private static final String METHOD_ID = "method_id";
-    private static final String ISSUER_ID = "issuer_id";
+    private static final String METHOD = "method";
+    private static final String ISSUER = "issuer";
 
     private PaymentConfigurationActivityPresenter.MainActivityInteractor mainActivityInteractor;
     private SelectInstallmentPresenter presenter;
@@ -41,15 +46,16 @@ public class SelectInstallmentFragment extends Fragment implements SelectInstall
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private TextView noDataMessage;
+    private ImageView methodInfo, providerInfo;
 
-    private String methodId;
-    private String issuerId;
+    private PaymentMethodModel method;
+    private PaymentMethodProviderModel issuer;
 
-    public static SelectInstallmentFragment getFragment(String methodId, String issuerId) {
+    public static SelectInstallmentFragment getFragment(PaymentMethodModel method, PaymentMethodProviderModel issuer) {
         SelectInstallmentFragment fragment = new SelectInstallmentFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(METHOD_ID, methodId);
-        bundle.putString(ISSUER_ID, issuerId);
+        bundle.putString(METHOD, new Gson().toJson(method));
+        bundle.putString(ISSUER, new Gson().toJson(issuer));
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -62,8 +68,8 @@ public class SelectInstallmentFragment extends Fragment implements SelectInstall
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         assert getArguments() != null;
-        methodId = getArguments().getString(METHOD_ID);
-        issuerId = getArguments().getString(ISSUER_ID);
+        method = new Gson().fromJson(getArguments().getString(METHOD), PaymentMethodModel.class);
+        issuer = new Gson().fromJson(getArguments().getString(ISSUER), PaymentMethodProviderModel.class);
     }
 
     @Override
@@ -78,16 +84,21 @@ public class SelectInstallmentFragment extends Fragment implements SelectInstall
         super.onViewCreated(view, savedInstanceState);
 
         presenter = new SelectInstallmentPresenter(getActivity().getApplication(), this);
-        presenter.getPaymentInstalments(methodId, issuerId);
+        presenter.getPaymentInstalments(method.getId(), issuer.getId());
 
         recyclerView = view.findViewById(R.id.payment_installment_recycler);
         progressBar = view.findViewById(R.id.payment_installment_progress);
         noDataMessage = view.findViewById(R.id.payment_installment_no_data);
+        methodInfo = view.findViewById(R.id.payment_method_info);
+        providerInfo= view.findViewById(R.id.payment_provider_method_info);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
+
+        Glide.with(view).load(method.getThumbnail()).into(methodInfo);
+        Glide.with(view).load(issuer.getThumbnail()).into(providerInfo);
     }
 
     @Override

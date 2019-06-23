@@ -30,8 +30,6 @@ public class PaymentConfigurationActivity extends AppCompatActivity implements P
     private PaymentMethodModel methodModel;
     private PaymentMethodProviderModel providerModel;
 
-    private String methodId;
-    private String issuerID;
 
     FragmentManager fragmentManager;
 
@@ -65,32 +63,29 @@ public class PaymentConfigurationActivity extends AppCompatActivity implements P
     }
 
     private void addFragment(Fragment fragment) {
-        fragmentManager
-                .beginTransaction()
+
+        fragmentManager.beginTransaction()
                 .replace(R.id.fragment_holder, fragment)
                 .addToBackStack(null)
                 .commit();
-
     }
 
     @Override
     public void onMethodDecided(PaymentMethodModel methodModel) {
-        methodId = methodModel.getId();
-        this.methodModel= methodModel;
-        addFragment(SelectProviderFragment.getFragment(methodId));
+        this.methodModel = methodModel;
+        addFragment(SelectProviderFragment.getFragment(methodModel));
     }
 
     @Override
     public void onProviderDecided(PaymentMethodProviderModel providerModel) {
-        issuerID = providerModel.getId();
-        this.providerModel= providerModel;
-        addFragment(SelectInstallmentFragment.getFragment(methodId, issuerID));
+        this.providerModel = providerModel;
+        addFragment(SelectInstallmentFragment.getFragment(methodModel, providerModel));
     }
 
     @Override
     public void onInstallmentDecided(PaymentMethodInstallmentModel.PayerCost payerCost) {
 
-        PaymentConfigurationModel model= new PaymentConfigurationModel(price, methodModel, providerModel, payerCost);
+        PaymentConfigurationModel model = new PaymentConfigurationModel(price, methodModel, providerModel, payerCost);
 
         Intent resultIntent = new Intent();
         resultIntent.putExtra(CONFIGURATION_MODEL, new Gson().toJson(model));

@@ -52,9 +52,7 @@ public class SelectPaymentPresenter {
 
     public interface SelectPaymentInteractor {
         void onPaymentMethodListLoaded(List<PaymentMethodModel> paymentMethodModelList);
-
         void onFailedToRecoverPaymentMethods();
-
         void onNoPaymentMethod();
     }
 }

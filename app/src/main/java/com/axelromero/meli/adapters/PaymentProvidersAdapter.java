@@ -1,6 +1,5 @@
 package com.axelromero.meli.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,7 @@ public class PaymentProvidersAdapter extends RecyclerView.Adapter<PaymentProvide
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PaymentProviderViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final PaymentProviderViewHolder holder, final int position) {
         holder.textView.setText(paymentMethodProviderModelList.get(position).getName());
         Glide.with(holder.imageView.getContext())
                 .load(paymentMethodProviderModelList.get(position).getSecureThumbnail())

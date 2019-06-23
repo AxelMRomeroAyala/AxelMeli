@@ -2,6 +2,7 @@
     <string name="app_name" translatable="false">AxelMeli</string>
 
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="value_suggestion" translatable="false">$0</string>
 
     <string name="button_next">Next</string>
     <string name="value">Value: </string>
@@ -19,5 +20,10 @@
     <string name="fail_installment">There was an error recovering the installments data. Try again later.</string>
 
     <string name="no_data">There is no information</string>
+
+    <plurals name="installment_dialog_info">
+        <item quantity="one">In %d installment.</item>
+        <item quantity="other">In %d installments.</item>
+    </plurals>
 
 </resources>

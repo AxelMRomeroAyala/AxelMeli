@@ -41,6 +41,10 @@ public class SelectPaymentMethodFragment extends Fragment implements SelectPayme
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +65,8 @@ public class SelectPaymentMethodFragment extends Fragment implements SelectPayme
 
         presenter = new SelectPaymentPresenter(getActivity().getApplication(), this);
         presenter.getPaymentMethods();
+
+        startPostponedEnterTransition();
     }
 
     @Override
