@@ -18,9 +18,9 @@ import retrofit2.Retrofit;
 public class SelectProviderPresenter {
 
     @Inject
-    Retrofit retrofitService;
+    private Retrofit retrofitService;
 
-    SelectProviderInteractor interactor;
+    private SelectProviderInteractor interactor;
 
     public SelectProviderPresenter(Application application, SelectProviderInteractor interactor) {
         ((AxelMeLiApplication) application).getDataComponent().inject(this);

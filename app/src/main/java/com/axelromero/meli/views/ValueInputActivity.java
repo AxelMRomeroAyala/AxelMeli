@@ -24,13 +24,13 @@ import com.google.gson.Gson;
 
 public class ValueInputActivity extends AppCompatActivity implements ValueInputPresenter.ValueInputInteractor {
 
-    EditText valueInput;
-    Button valueOk;
-    ValueInputPresenter valueInputPresenter;
+    private EditText valueInput;
+    private Button valueOk;
+    private ValueInputPresenter valueInputPresenter;
 
-    String inputtedValue;
+    private String inputtedValue;
 
-    PaymentConfigurationModel paymentConfigurationModel;
+    private PaymentConfigurationModel paymentConfigurationModel;
 
     private static final int CONFIGURE_PAYMENT_REQUEST = 1;
 

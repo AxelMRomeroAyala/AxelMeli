@@ -31,9 +31,6 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SelectInstallmentFragment extends Fragment implements SelectInstallmentPresenter.SelectInstallmentInteractor, PaymentInstallmentAdapter.PaymentInstallmentAdapterInteractor {
 
     private static final String METHOD = "method";
@@ -51,7 +48,7 @@ public class SelectInstallmentFragment extends Fragment implements SelectInstall
     private PaymentMethodModel method;
     private PaymentMethodProviderModel issuer;
 
-    public static SelectInstallmentFragment getFragment(PaymentMethodModel method, PaymentMethodProviderModel issuer) {
+    static SelectInstallmentFragment getFragment(PaymentMethodModel method, PaymentMethodProviderModel issuer) {
         SelectInstallmentFragment fragment = new SelectInstallmentFragment();
         Bundle bundle = new Bundle();
         bundle.putString(METHOD, new Gson().toJson(method));

@@ -5,7 +5,6 @@
     <string name="value">Monto: </string>
     <string name="method">Medio: </string>
     <string name="provider">Banco: </string>
-    <string name="installments">Cuotas: </string>
 
     <string name="input_value_title">Por favor ingrese un monto</string>
     <string name="select_payment_method">Seleccione un medio de pago</string>

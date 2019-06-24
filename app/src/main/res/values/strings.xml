@@ -1,14 +1,12 @@
 <resources>
     <string name="app_name" translatable="false">AxelMeli</string>
 
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="value_suggestion" translatable="false">$0</string>
 
     <string name="button_next">Next</string>
     <string name="value">Value: </string>
     <string name="method">Method: </string>
     <string name="provider">Provider: </string>
-    <string name="installments">Installments: </string>
 
     <string name="input_value_title">Please enter an amount for the payment</string>
     <string name="select_payment_method">Select your desired payment method</string>

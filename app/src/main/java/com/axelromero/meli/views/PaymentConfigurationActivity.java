@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 
 import com.axelromero.meli.R;
 import com.axelromero.meli.models.PaymentConfigurationModel;
@@ -22,9 +21,6 @@ public class PaymentConfigurationActivity extends AppCompatActivity implements P
 
     public static final String CONFIGURATION_MODEL = "config_model";
     private final static String PRICE = "price";
-
-    private FrameLayout fragmentHolder;
-    private PaymentConfigurationActivityPresenter presenter;
 
     private String price;
     private PaymentMethodModel methodModel;
@@ -47,9 +43,6 @@ public class PaymentConfigurationActivity extends AppCompatActivity implements P
 
         price = getIntent().getStringExtra(PRICE);
 
-        presenter = new PaymentConfigurationActivityPresenter(getApplication());
-
-        fragmentHolder = findViewById(R.id.fragment_holder);
         fragmentManager = getSupportFragmentManager();
         fragmentManager
                 .beginTransaction()

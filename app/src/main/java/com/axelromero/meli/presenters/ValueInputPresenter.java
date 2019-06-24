@@ -2,7 +2,7 @@ package com.axelromero.meli.presenters;
 
 public class ValueInputPresenter {
 
-    ValueInputInteractor interactor;
+    private ValueInputInteractor interactor;
 
     public ValueInputPresenter(ValueInputInteractor valueInputInteractor){
         this.interactor= valueInputInteractor;

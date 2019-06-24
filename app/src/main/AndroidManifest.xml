@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".views.PaymentConfigurationActivity"></activity>
+        <activity android:name=".views.PaymentConfigurationActivity"/>
         <activity
             android:name=".views.ValueInputActivity"
             android:windowSoftInputMode="adjustResize">
